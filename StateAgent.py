@@ -23,16 +23,26 @@ class Agent:
         }
         self.current_state = 'S1'
 
-    def process_story(self, story):
+    def start(self, story):
+        """
+        Name: start()
+        Description:
+            Segments text and initialises sentence index used by agent
+        Args:
+            (string) Agent story
+        """
         self.story = self.segmenter.segment(story)
         self.current_sentence_idx = 0
+        self.current_state = 'S2'
         while self.current_state != 'END':
             self.states[self.current_state]()
 
-    def start(self):
-        self.current_state = 'S2'
-
     def read_and_nlp(self):
+        """
+        Name: read_and_nlp()
+        Description:
+            Applies NLP processes to the sentence the agent is currently at
+        """
         if self.current_sentence_idx < len(self.story):
             self.current_sentence = self.story[self.current_sentence_idx]
             self.entities = self.parser.parse(self.current_sentence)
@@ -73,6 +83,3 @@ class Agent:
 
     def can_execute_query(self):
         pass
-
-    def check_all(self):
-        print("ok")
