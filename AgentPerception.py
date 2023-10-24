@@ -1,5 +1,6 @@
 import nltk
 import spacy
+import re
 
 # Necessary for sentence segmentation
 # nltk.download('punkt')
@@ -11,9 +12,10 @@ class NLP:
         pass
 
     def parse(self, text):
-        doc = self.model(text)
-        print(text)
-        print(doc.ents)
+        sent = re.sub(r'[^\w\s]', '', text)
+        doc = self.model(sent)
+        for entity in doc.ents:
+            print(entity.label_, ' | ', entity.text)
         pass
 
 class Segmentation:
