@@ -7,10 +7,13 @@ class Agent:
     def __init__(self):
         self.parser = NLP()
         self.segmenter = Segmentation()
-        self.ontology = Ontology()
+        self.ontology = Ontology('urn_webprotege_ontology_5d0dac0d-8168-404e-b9c8-c3f420fec954')
         self.wm = WorkingMemory()
         self.incon_check = InconsistencyCheck()
         self.feedback_gen = FeedbackGenerator()
+        self.query_checker = QueryChecker()
+        
+        self.wm.set_relations_from_ontology(self.ontology)
 
         self.states = {
             'S1': self.start,
@@ -82,4 +85,9 @@ class Agent:
         self.current_state = 'S2'
 
     def can_execute_query(self):
-        pass
+        """
+        Name: can_execute_query()
+        Description:
+            Retrieves queries which could be performed based on current working memory
+        """
+        return self.query_checker.get_queries_to_perform()
