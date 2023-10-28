@@ -8,7 +8,8 @@ class Ontology:
 
         self.fill_iris_dict()
 
-        print()
+    def get_onto(self):
+        return self.ontology
 
     def fill_iris_dict(self):
         """
@@ -69,15 +70,63 @@ class Ontology:
 
 class WorkingMemory:
     def __init__(self):
-        self.memory = []
-
-    def set_relations_from_ontology(self, ontology):
-        for entity in [ontology.data_properties(), ontology.object_properties()]:
-            if entity in ontology.data_properties() or entity in ontology.object_properties():
-                self.memory[str(entity.label[0])] = [] 
+        self.memory = {}
 
     def store(self, data):
-        self.memory.append(data)
+        """
+        Name: store()
+        Description:
+            Merges new relationships into working memory
+        Args:
+            (dict) new relationship to store
+        """
+        for key, value in data.items():
+            if key in self.memory:
+                existing_value = self.memory[key]
+                if existing_value and isinstance(existing_value, list) and all(isinstance(item, tuple) for item in existing_value):
+                    # Extend the existing list with the new value if the new value is not already in the list
+                    self.memory[key].extend(item for item in value if item not in existing_value)
+                else:
+                    # If existing_value is not a list of tuples, replace it with value or merge if they are single tuples
+                    self.memory[key] = [existing_value, value] if existing_value and not isinstance(existing_value[0], tuple) else list(value)
+            else:
+                self.memory[key] = list(value)  # Convert tuple to list
+        # for key, value in data.items():
+        #     if key in self.memory:
+        #         existing_value = self.memory[key]
+        #         if existing_value and isinstance(existing_value, tuple) and isinstance(existing_value[0], tuple):
+        #             self.memory[key] += (value,)
+        #         else:
+        #             self.memory[key] = (existing_value, value) if existing_value else value
+        #     else:
+        #         self.memory[key] = value
+
+    def set_relations_from_ontology(self, ontology):
+        """
+        Name: set_relations_from_ontology()
+        Description:
+            Fills the initial working memory with data and object properties from the ontology
+        Args:
+            (Ontology) owl ontology
+        """
+        for prop in ontology.data_properties():
+            self.memory[str(prop.label[0])] = []
+        for prop in ontology.object_properties():
+            self.memory[str(prop.label[0])] = []
+
+    def printwm(self):
+        print(self.memory)
+
+    # def __init__(self):
+    #     self.memory = []
+
+    # def set_relations_from_ontology(self, ontology):
+    #     for entity in [ontology.data_properties(), ontology.object_properties()]:
+    #         if entity in ontology.data_properties() or entity in ontology.object_properties():
+    #             self.memory[str(entity.label[0])] = [] 
+
+    # def store(self, data):
+    #     self.memory.append(data)
 
     def retrieve(self):
         return self.memory

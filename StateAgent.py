@@ -11,9 +11,9 @@ class Agent:
         self.wm = WorkingMemory()
         self.incon_check = InconsistencyCheck()
         self.feedback_gen = FeedbackGenerator()
-        self.query_checker = QueryChecker()
+        self.query_checker = QueryChecker(self.wm, self.ontology)
         
-        self.wm.set_relations_from_ontology(self.ontology)
+        self.wm.set_relations_from_ontology(self.ontology.get_onto())
 
         self.states = {
             'S1': self.start,
@@ -48,24 +48,42 @@ class Agent:
         """
         if self.current_sentence_idx < len(self.story):
             self.current_sentence = self.story[self.current_sentence_idx]
-            self.entities = self.parser.parse(self.current_sentence)
+            self.relations = self.parser.parse(self.current_sentence)
             self.current_state = 'S3'
         else:
             self.current_state = 'END'
 
     def store_in_memory(self):
-        self.wm.store(self.entities)
-        if self.can_execute_query():
+        """
+        Name: store_in_memory()
+        Description:
+            Stores new entity relationship data into working memory
+        """
+        self.wm.store(self.relations)
+
+        self.wm.printwm() #Currently for Debug purposed
+        #Below commented out is for debug running
+        # if self.current_sentence_idx < 10:
+        #     self.current_sentence_idx += 1
+        #     self.current_state = 'S2'
+        # else:
+        #     self.current_state='END'
+
+        if self.query_checker.get_queries_to_perform():
             self.current_state = 'S4'
         else:
             self.current_sentence_idx += 1
             self.current_state = 'S2'
 
     def query_ontology(self):
-        self.query_results = self.ontology.query(self.entities)
+        queries = self.query_checker.get_queries_to_perform()
+        self.query_results = []
+        for query in queries:
+            self.query_results.append(list(query()))
         self.current_state = 'S5'
 
     def store_ontology_results(self):
+        #Currently the agent gets to here
         self.wm.store(self.query_results)
         self.current_state = 'S6'
 
@@ -83,11 +101,3 @@ class Agent:
             print(feedback)
         self.current_sentence_idx += 1
         self.current_state = 'S2'
-
-    def can_execute_query(self):
-        """
-        Name: can_execute_query()
-        Description:
-            Retrieves queries which could be performed based on current working memory
-        """
-        return self.query_checker.get_queries_to_perform()

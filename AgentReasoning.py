@@ -13,17 +13,17 @@ class QueryChecker:
     def get_queries_to_perform(self):
         queries = []
 
-        if any('Guest' in item for item in self.wm['hasOccupation']):
+        if any('Guest' in item for item in self.wm.retrieve()['hasOccupation']):
             queries.append(lambda: self.onto.get_persons_with_place_and_occupation('Guest', 'Kitchen'))
 
-        for item in self.wm['serves']:
-            for item_2 in self.wm['dishes']:
+        for item in self.wm.retrieve()['serves']:
+            for item_2 in self.wm.retrieve()['dishes']:
                 if item[0] == item_2[0]:
                     queries.append(lambda: self.onto.get_dishes_from_cuisine_of_restaurant(item[1], item_2[1]))            
         
 
-        for item in self.wm['hasHealthCondition']:
-            for item_2 in self.wm['consumes']:
+        for item in self.wm.retrieve()['hasHealthCondition']:
+            for item_2 in self.wm.retrieve()['consumes']:
                 if item[0] == item_2[0]:
                     queries.append(lambda: self.onto.get_person_with_condition_that_consumes(item[1], item_2[1]))
 
