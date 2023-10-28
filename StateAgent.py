@@ -84,8 +84,16 @@ class Agent:
 
     def store_ontology_results(self):
         #Currently the agent gets to here
-        self.wm.store(self.query_results)
-        self.current_state = 'S6'
+        ####Between these comments is for debug
+        if self.current_sentence_idx < 10:
+            self.current_sentence_idx += 1
+            self.current_state = 'S2'
+        else:
+            self.current_state='END'
+        ###For debug above
+        
+        # self.wm.store(self.query_results)
+        # self.current_state = 'S6'
 
     def reasoner(self):
         self.inconsistencies = self.incon_check.check(self.wm.retrieve())
