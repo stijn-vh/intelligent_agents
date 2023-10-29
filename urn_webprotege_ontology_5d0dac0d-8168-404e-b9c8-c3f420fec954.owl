@@ -436,6 +436,16 @@
     
 
 
+    <!-- http://webprotege.stanford.edu/R7Z9IaLwJWyudP2seHIQcTr -->
+
+    <owl:Thing rdf:about="http://webprotege.stanford.edu/R7Z9IaLwJWyudP2seHIQcTr">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+        <webprotege:R8wpgNW1VzYUfuXLiWnd0D7 rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">18</webprotege:R8wpgNW1VzYUfuXLiWnd0D7>
+        <rdfs:label xml:lang="en">AgeOfConsent</rdfs:label>
+    </owl:Thing>
+    
+
+
     <!-- http://webprotege.stanford.edu/R7impOcVLtNF4Z4GTmk2dzh -->
 
     <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/R7impOcVLtNF4Z4GTmk2dzh">

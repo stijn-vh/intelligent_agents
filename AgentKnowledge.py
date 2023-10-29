@@ -56,6 +56,15 @@ class Ontology:
                 ?person <{self.retrieve_IRI('canEat')}> <{self.retrieve_IRI(dish)}>
             }}
         """)
+
+    # DOESNT WORK YET, but maybe something like this for the age of consent.
+    # def get_age_of_consent(self):
+    #     return self.ontology.world.sparql(f"""
+    #         SELECT ?age
+    #         WHERE {{
+    #             <{self.retrieve_IRI('AgeOfConsent')} <{self.retrieve_IRI('hasAge')} ?age .
+    #         }}
+    #     """)
     
     def retrieve_IRI(self, label):
         return self.iris[label]

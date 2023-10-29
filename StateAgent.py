@@ -78,6 +78,7 @@ class Agent:
     def query_ontology(self):
         queries = self.query_checker.get_queries_to_perform()
         self.query_results = []
+        print(self.ontology.get_age_of_consent())
         for query in queries:
             self.query_results.append(list(query()))
         self.current_state = 'S5'
