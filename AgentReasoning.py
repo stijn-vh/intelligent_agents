@@ -48,6 +48,7 @@ class InconsistencyCheck:
                     self.found_incons['marriage'].add(incon_set)
                     inconsistencies.append(('Marriage', '{} and {} are married under the age of consent of {}'.format(person1, person2, consentAge)))
 
+        # Rough health condition check
         if (len(wm['hasHealthCondition']) > 0 and (len(wm['consumes'])) > 0):
             for pair in wm['hasHealthCondition']:
                 person = pair[0]
