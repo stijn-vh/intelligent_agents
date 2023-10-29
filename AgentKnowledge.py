@@ -105,6 +105,7 @@ class WorkingMemory:
 
     def printwm(self):
         print(self.memory)
+        print('\n\n')
 
     # def __init__(self):
     #     self.memory = []

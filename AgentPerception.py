@@ -13,17 +13,22 @@ class NLP:
         self.matcher = Matcher(self.model.vocab)
 
         # Matching Rules
-        pattern_loc = [{"LOWER": "located"}, {"LOWER": "in"}, {"ENT_TYPE": "GPE"}]
-        pattern_mar = [{"TEXT": "married"}, {"TEXT": "couple"}, {"TEXT": ","}, {"POS": "PROPN"}, {"TEXT": "and"}, {"POS": "PROPN"}]
-        self.matcher.add("LOCATION", [pattern_loc])
-        self.matcher.add("MARRIAGE", [pattern_mar])
+        patterns = {
+            "LOCATION": [[{"LOWER": "located"}, {"LOWER": "in"}, {"ENT_TYPE": "GPE"}]],
+            "MARRIAGE": [[{"TEXT": "married"}, {"TEXT": "couple"}, {"TEXT": ","}, {"POS": "PROPN"}, {"TEXT": "and"}, {"POS": "PROPN"}]],
+            "HEALTH_CONDITION": [[{"DEP": "nsubj", "OP": "+"}, {"LEMMA": "be", "POS": "AUX"}, {"POS": "DET", "OP": "?"}, {"LOWER": "diabetic"}]],
+            "ORDERED_FOOD": [[{"DEP": "nsubj", "OP": "+"}, {"LEMMA": "order"}, {"POS": "DET", "OP": "?"}, {"POS": "ADJ", "OP": "*"}, {"POS": {"IN": ["NOUN", "PROPN"]}}]]
+        }
 
-        pass
+        for label, pattern in patterns.items():
+            self.matcher.add(label, pattern)
 
     def parse(self, sent):
         doc = self.model(sent)
         matches = self.matcher(doc)
         relationships = {}
+
+        consumes_relation = []
 
         for match_id, start, end in matches:
             match_id_str = self.model.vocab.strings[match_id]
@@ -39,6 +44,30 @@ class NLP:
             if match_id_str == "MARRIAGE":
                 person1, person2 = span[3].text, span[5].text
                 relationships["isMarriedTo"] = [(person1, person2)]
+
+            if match_id_str == "HEALTH_CONDITION":
+                subject = span[0].text  # Assuming the subject is always the first token in the span
+                condition = "Diabetes"  # Converting 'diabetic' to 'Diabetes'
+                relationships["hasHealthCondition"] = [(subject, condition)]
+
+            if match_id_str == "ORDERED_FOOD":
+                subject = span[0].text  # Assuming the subject is always the first token in the span
+                item = span[-1].text  # Assuming the item is always the last token in the span
+                consumes_relation.append((subject, item))
+
+        if consumes_relation:
+            relationships['consumes'] = tuple(consumes_relation)
+
+        #Diabetes
+        for token in doc:
+            # Look for the word "diabetic" or other known health conditions
+            if token.text.lower() in ["diabetic"]:
+                # Find the subject of the phrase (assumes the subject precedes the health condition)
+                subject = [ancestor for ancestor in token.ancestors if ancestor.dep_ in ("nsubj", "nsubjpass")]
+                if subject:
+                    # Create a more clinical term for the condition
+                    condition = "Diabetes" if token.text.lower() == "diabetic" else token.text
+                    relationships["hasHealthCondition"].append((subject[0].text, condition))
         
         #Ages
         for token in doc:

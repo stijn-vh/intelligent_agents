@@ -48,6 +48,16 @@ class InconsistencyCheck:
                     self.found_incons['marriage'].add(incon_set)
                     inconsistencies.append(('Marriage', '{} and {} are married under the age of consent of {}'.format(person1, person2, consentAge)))
 
+        if (len(wm['hasHealthCondition']) > 0 and (len(wm['consumes'])) > 0):
+            for pair in wm['hasHealthCondition']:
+                person = pair[0]
+                foods = [item[1] for item in wm['consumes'] if item[0] == person]
+                for food in foods:
+                    incon_set = (person, food)
+                    if (incon_set not in self.found_incons['health']):
+                        self.found_incons['health'].add(incon_set)
+                        inconsistencies.append(('Health Condition', '{} can not eat {} because they have {}'.format(person, food, 'Diabetes')))
+
         return inconsistencies
 
 
@@ -65,12 +75,12 @@ class QueryChecker:
         for item in self.wm.retrieve()['serves']:
             for item_2 in self.wm.retrieve()['dishes']:
                 if item[0] == item_2[0]:
-                    queries.append(lambda: self.onto.get_dishes_from_cuisine_of_restaurant(item[1], item_2[1]))            
+                    queries.append(lambda: self.onto.get_dishes_from_cuisine_of_restaurant(item[1].capitalize(), item_2[1].capitalize()))            
         
 
         for item in self.wm.retrieve()['hasHealthCondition']:
             for item_2 in self.wm.retrieve()['consumes']:
                 if item[0] == item_2[0]:
-                    queries.append(lambda: self.onto.get_person_with_condition_that_consumes(item[1], item_2[1]))
+                    queries.append(lambda: self.onto.get_person_with_condition_that_consumes(item[1].capitalize(), item_2[1].capitalize()))
 
         return queries
