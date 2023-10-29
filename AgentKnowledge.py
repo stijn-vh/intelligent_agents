@@ -84,22 +84,11 @@ class WorkingMemory:
             if key in self.memory:
                 existing_value = self.memory[key]
                 if existing_value and isinstance(existing_value, list) and all(isinstance(item, tuple) for item in existing_value):
-                    # Extend the existing list with the new value if the new value is not already in the list
                     self.memory[key].extend(item for item in value if item not in existing_value)
                 else:
-                    # If existing_value is not a list of tuples, replace it with value or merge if they are single tuples
                     self.memory[key] = [existing_value, value] if existing_value and not isinstance(existing_value[0], tuple) else list(value)
             else:
-                self.memory[key] = list(value)  # Convert tuple to list
-        # for key, value in data.items():
-        #     if key in self.memory:
-        #         existing_value = self.memory[key]
-        #         if existing_value and isinstance(existing_value, tuple) and isinstance(existing_value[0], tuple):
-        #             self.memory[key] += (value,)
-        #         else:
-        #             self.memory[key] = (existing_value, value) if existing_value else value
-        #     else:
-        #         self.memory[key] = value
+                self.memory[key] = list(value)
 
     def set_relations_from_ontology(self, ontology):
         """

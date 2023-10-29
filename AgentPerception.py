@@ -69,22 +69,28 @@ class NLP:
         
         #Person location
         location_keywords = ["restaurant", "dinner", "dining"]
-        added_entities = set()  # Set to keep track of added entities
-        location_name = "La Trattoria"  # Assuming the name of the restaurant is known
-        location_relationships = []  # List to collect isLocatedIn relationships
+        added_entities = set()
+        location_name = "La Trattoria"
+        location_relationships = []
         for token in doc:
             if token.lemma_.lower() in location_keywords:
-                # Look back to find the associated entities (assumes the entities are mentioned in the same sentence)
                 left_span = doc[:token.i]
                 named_entities = [ent for ent in left_span.ents if ent.label_ == "PERSON" and ent.text not in added_entities]
                 for named_entity in named_entities:
                     person = named_entity.text
                     location_relationships.append((person, location_name))
-                    added_entities.add(person)  # Mark this entity as added
+                    added_entities.add(person)
 
-        # Convert list of tuples to tuple of tuples for 'isLocatedIn'
         if location_relationships:
             relationships["isLocatedIn"] += tuple(location_relationships)
+
+        for token in doc:
+            if token.dep_ in ("xcomp", "ccomp") and token.head.lemma_ in ("order", "decide"):
+                subject = [ancestor for ancestor in token.ancestors if ancestor.dep_ in ("nsubj", "nsubjpass")]
+                object = [descendant for descendant in token.subtree if descendant.dep_ in ("dobj", "attr")]
+                if subject and object:
+                    food_item = ' '.join([word.text for word in object[0].subtree])
+                    relationships["consumes"].append((subject[0].text, food_item))
 
         return relationships
 

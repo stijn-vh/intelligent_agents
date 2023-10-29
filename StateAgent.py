@@ -61,7 +61,7 @@ class Agent:
         """
         self.wm.store(self.relations)
 
-        self.wm.printwm() #Currently for Debug purposed
+        #self.wm.printwm() #Currently for Debug purposes
         #Below commented out is for debug running
         # if self.current_sentence_idx < 10:
         #     self.current_sentence_idx += 1
@@ -85,11 +85,12 @@ class Agent:
     def store_ontology_results(self):
         #Currently the agent gets to here
         ####Between these comments is for debug
-        if self.current_sentence_idx < 10:
-            self.current_sentence_idx += 1
-            self.current_state = 'S2'
-        else:
-            self.current_state='END'
+        self.current_state = 'S6'
+        # if self.current_sentence_idx < 10:
+        #     self.current_sentence_idx += 1
+        #     self.current_state = 'S2'
+        # else:
+        #     self.current_state='END'
         ###For debug above
         
         # self.wm.store(self.query_results)
@@ -105,7 +106,6 @@ class Agent:
 
     def output_inconsistency(self):
         for inconsistency in self.inconsistencies:
-            feedback = self.feedback_gen.generate_feedback(inconsistency)
-            print(feedback)
+            feedback = self.feedback_gen.generate_feedback(inconsistency, self.current_sentence)
         self.current_sentence_idx += 1
         self.current_state = 'S2'
