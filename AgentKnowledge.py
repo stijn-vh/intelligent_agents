@@ -43,7 +43,7 @@ class Ontology:
         return self.ontology.world.sparql(f"""
             SELECT ?dish
             WHERE {{
-                <{restaurant}> <{self.retrieve_IRI('serves')}> ?cuisine .
+                <{self.retrieve_IRI(restaurant)}> <{self.retrieve_IRI('serves')}> ?cuisine .
                 ?cuisine <{self.retrieve_IRI('dishes')}> ?dish
             }}
         """)
@@ -62,6 +62,14 @@ class Ontology:
             SELECT ?dish
             WHERE {{
                 <{self.retrieve_IRI(condition)}> <{self.retrieve_IRI('canEat')}> ?dish .
+            }}
+        """)
+    
+    def get_cuisine(self, restaurant):
+        return self.ontology.world.sparql(f"""
+            SELECT ?cuisine
+            WHERE {{
+                <{self.retrieve_IRI(restaurant)}> <{self.retrieve_IRI('serves')}> ?cuisine .
             }}
         """)
     

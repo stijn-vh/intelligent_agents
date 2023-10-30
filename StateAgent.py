@@ -62,13 +62,7 @@ class Agent:
         self.wm.store(self.relations)
 
         #self.wm.printwm() #Currently for Debug purposes
-        #Below commented out is for debug running
-        # if self.current_sentence_idx < 10:
-        #     self.current_sentence_idx += 1
-        #     self.current_state = 'S2'
-        # else:
-        #     self.current_state='END'
-
+        
         if self.query_checker.get_queries_to_perform():
             self.current_state = 'S4'
         else:

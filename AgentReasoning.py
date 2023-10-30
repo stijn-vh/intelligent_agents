@@ -5,7 +5,7 @@ class InconsistencyCheck:
         self.found_incons = {
             'marriage': set(),
             'health': set(),
-            'food': set()
+            'food': set(),
         }
 
     def get_age(self, name, wm):
@@ -48,7 +48,7 @@ class InconsistencyCheck:
                     self.found_incons['marriage'].add(incon_set)
                     inconsistencies.append(('Marriage', '{} and {} are married under the age of consent of {}'.format(person1, person2, consentAge)))
 
-        # Rough health condition check
+        # Health condition check
         if (len(wm['hasHealthCondition']) > 0 and (len(wm['consumes'])) > 0):
             for pair in wm['hasHealthCondition']:
                 person = pair[0]
@@ -62,6 +62,23 @@ class InconsistencyCheck:
                     if (incon_set not in self.found_incons['health']) and not list(ontology.get_person_with_condition_that_consumes(condition, food)) and (food != str(list(ontology.get_health_condition_food(condition))[0][0].label.first())):
                         self.found_incons['health'].add(incon_set)
                         inconsistencies.append(('Health Condition', '{} can not eat {} because they have {}'.format(person, food, condition)))
+
+        # Cuisine check
+        if (len(wm['isLocatedIn']) > 0 and (len(['consumes'])) > 0):
+            for pair in wm['consumes']:
+                person = pair[0]
+                food = pair[1].capitalize()
+                for locPair in wm['isLocatedIn']:
+                    locPerson = locPair[0]
+                    location = locPair[1]
+                    incon_set = (locPerson, location)
+                    locationFoods = [str(i[0].label.first()) for i in list(ontology.get_dishes_from_cuisine_of_restaurant('La Trattoria'))]
+                    cuisine = str(list(ontology.get_cuisine('La Trattoria'))[0][0].label.first())
+                    if (incon_set not in self.found_incons['food']) and (person == locPerson) and (food not in locationFoods):
+                        self.found_incons['food'].add(incon_set)
+                        inconsistencies.append(('Cuisine mismatch', '{} does not serve {} as it serves {} cuisine'.format(location, food, cuisine)))
+                        pass
+                        
 
         return inconsistencies
 

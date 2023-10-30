@@ -924,6 +924,10 @@
                 <owl:someValuesFrom rdf:resource="http://webprotege.stanford.edu/RCrx1G5StnmLXyI3Gkkbot8"/>
             </owl:Restriction>
         </rdf:type>
+        <webprotege:R9e2fRmRlsYFnhJTp7QR2et rdf:resource="http://webprotege.stanford.edu/RBLK4qHNxEj2o0AbH6VJoJK"/>
+        <webprotege:R9e2fRmRlsYFnhJTp7QR2et rdf:resource="http://webprotege.stanford.edu/RT58UDGiiv9waPpcIZfg1o"/>
+        <webprotege:R9e2fRmRlsYFnhJTp7QR2et rdf:resource="http://webprotege.stanford.edu/RdPVdX0hI32tThFQ2Nj9a0"/>
+        <webprotege:R9e2fRmRlsYFnhJTp7QR2et rdf:resource="http://webprotege.stanford.edu/Rzx054RjlfgxLeY8J3qHBj"/>
         <rdfs:label xml:lang="en">Italian</rdfs:label>
     </owl:NamedIndividual>
     
