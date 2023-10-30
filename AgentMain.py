@@ -1,4 +1,3 @@
-import numpy as np
 from StateAgent import *
 
 if __name__ == "__main__":

@@ -1,7 +1,6 @@
 import nltk
 import spacy
 from spacy.matcher import Matcher
-import re
 
 # Necessary for sentence segmentation
 # nltk.download('punkt')

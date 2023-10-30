@@ -1,4 +1,3 @@
-
 # 3. Reasoning Layer
 class InconsistencyCheck:
     def __init__(self):
