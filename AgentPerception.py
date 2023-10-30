@@ -23,7 +23,29 @@ class NLP:
         for label, pattern in patterns.items():
             self.matcher.add(label, pattern)
 
+    def segment(self, text):
+        """
+        Name: segment()
+        Description:
+            Segments text into sentences
+        Args:
+            (string) text to segment
+        Returns:
+            (list) individual sentences
+        """
+        sentences = nltk.sent_tokenize(text)
+        return sentences
+
     def parse(self, sent):
+        """
+        Name: parse()
+        Description:
+            Reads a sentence and extracts key information from the text
+        Args:
+            (str) current sentence
+        Returns:
+            (dict) dictionary of found relation information
+        """
         doc = self.model(sent)
         matches = self.matcher(doc)
         relationships = {}
@@ -133,21 +155,3 @@ class NLP:
                     relationships["consumes"].append((subject[0].text, food_item))
 
         return relationships
-
-class Segmentation:
-    def __init__(self):
-        pass
-
-    # Segment function which returns a list of individual sentences
-    def segment(self, text):
-        """
-        Name: segment()
-        Description:
-            Segments text into sentences
-        Args:
-            (string) text to segment
-        Returns:
-            (list) individual sentences
-        """
-        sentences = nltk.sent_tokenize(text)
-        return sentences
