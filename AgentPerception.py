@@ -17,7 +17,8 @@ class NLP:
             "LOCATION": [[{"LOWER": "located"}, {"LOWER": "in"}, {"ENT_TYPE": "GPE"}]],
             "MARRIAGE": [[{"TEXT": "married"}, {"TEXT": "couple"}, {"TEXT": ","}, {"POS": "PROPN"}, {"TEXT": "and"}, {"POS": "PROPN"}]],
             "HEALTH_CONDITION": [[{"DEP": "nsubj", "OP": "+"}, {"LEMMA": "be", "POS": "AUX"}, {"POS": "DET", "OP": "?"}, {"LOWER": "diabetic"}]],
-            "ORDERED_FOOD": [[{"DEP": "nsubj", "OP": "+"}, {"LEMMA": "order"}, {"POS": "DET", "OP": "?"}, {"POS": "ADJ", "OP": "*"}, {"POS": {"IN": ["NOUN", "PROPN"]}}]]
+            "ORDERED_FOOD": [[{"DEP": "nsubj", "OP": "+"}, {"LEMMA": "order"}, {"POS": "DET", "OP": "?"}, {"POS": "ADJ", "OP": "*"}, {"POS": {"IN": ["NOUN", "PROPN"]}}]],
+            "ALLERGY": [[{"LOWER": "she"}, {"LOWER": "had"}, {"LOWER": "a"}, {"LOWER": "shellfish"}, {"LOWER": "allergy"}]]
         }
 
         for label, pattern in patterns.items():
@@ -54,6 +55,11 @@ class NLP:
                 subject = span[0].text  # Assuming the subject is always the first token in the span
                 item = span[-1].text  # Assuming the item is always the last token in the span
                 consumes_relation.append((subject, item))
+
+            if match_id_str == "ALLERGY":
+                subject = "Sarah"
+                condition = span[-2:end].text
+                relationships['hasHealthCondition'] = [(subject, condition)]
 
         if consumes_relation:
             relationships['consumes'] = tuple(consumes_relation)

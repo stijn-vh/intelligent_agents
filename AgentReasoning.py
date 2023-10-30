@@ -22,7 +22,7 @@ class InconsistencyCheck:
                 return entry[1]
         return None
 
-    def check(self, wm):
+    def check(self, wm, ontology):
         """
         Name: check()
         Description:
@@ -37,7 +37,7 @@ class InconsistencyCheck:
             person1 = wm['isMarriedTo'][0][0]
             person2 = wm['isMarriedTo'][0][1]
 
-            consentAge = 18 #Maybe replace with a Ontology query
+            consentAge = list(ontology.get_age_of_consent())[0][0]
 
             incon_set = (person1, person2) #unique identifier for set(), good for keeping track
             if (incon_set not in self.found_incons['marriage']):
@@ -52,15 +52,18 @@ class InconsistencyCheck:
         if (len(wm['hasHealthCondition']) > 0 and (len(wm['consumes'])) > 0):
             for pair in wm['hasHealthCondition']:
                 person = pair[0]
+                condition = pair[1]
                 foods = [item[1] for item in wm['consumes'] if item[0] == person]
                 for food in foods:
                     incon_set = (person, food)
-                    if (incon_set not in self.found_incons['health']):
+                    food = food.capitalize()
+                    if len(condition.split(" ")) > 1:
+                        condition = condition.split(" ")[0].capitalize() + " " + condition.split(" ")[1].capitalize()
+                    if (incon_set not in self.found_incons['health']) and not list(ontology.get_person_with_condition_that_consumes(condition, food)) and (food != str(list(ontology.get_health_condition_food(condition))[0][0].label.first())):
                         self.found_incons['health'].add(incon_set)
-                        inconsistencies.append(('Health Condition', '{} can not eat {} because they have {}'.format(person, food, 'Diabetes')))
+                        inconsistencies.append(('Health Condition', '{} can not eat {} because they have {}'.format(person, food, condition)))
 
         return inconsistencies
-
 
 class QueryChecker:
     def __init__(self, wm, onto) -> None:

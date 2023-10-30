@@ -19,10 +19,10 @@ class Agent:
             'S1': self.start,
             'S2': self.read_and_nlp,
             'S3': self.store_in_memory,
-            'S4': self.query_ontology,
-            'S5': self.store_ontology_results,
-            'S6': self.reasoner,
-            'S7': self.output_inconsistency,
+            #'S4': self.query_ontology,
+            #'S5': self.store_ontology_results,
+            'S4': self.reasoner,
+            'S5': self.output_inconsistency,
         }
         self.current_state = 'S1'
 
@@ -75,17 +75,17 @@ class Agent:
             self.current_sentence_idx += 1
             self.current_state = 'S2'
 
-    def query_ontology(self):
-        queries = self.query_checker.get_queries_to_perform()
-        self.query_results = []
-        for query in queries:
-            self.query_results.append(list(query()))
-        self.current_state = 'S5'
+    # def query_ontology(self):
+    #     queries = self.query_checker.get_queries_to_perform()
+    #     self.query_results = []
+    #     for query in queries:
+    #         self.query_results.append(list(query()))
+    #     self.current_state = 'S5'
 
-    def store_ontology_results(self):
+    #def store_ontology_results(self):
         #Currently the agent gets to here
         ####Between these comments is for debug
-        self.current_state = 'S6'
+        #self.current_state = 'S6'
         # if self.current_sentence_idx < 10:
         #     self.current_sentence_idx += 1
         #     self.current_state = 'S2'
@@ -97,15 +97,15 @@ class Agent:
         # self.current_state = 'S6'
 
     def reasoner(self):
-        self.inconsistencies = self.incon_check.check(self.wm.retrieve())
+        self.inconsistencies = self.incon_check.check(self.wm.retrieve(), self.ontology)
         if self.inconsistencies:
-            self.current_state = 'S7'
+            self.current_state = 'S5'
         else:
             self.current_sentence_idx += 1
             self.current_state = 'S2'
 
     def output_inconsistency(self):
         for inconsistency in self.inconsistencies:
-            feedback = self.feedback_gen.generate_feedback(inconsistency, self.current_sentence)
+            self.feedback_gen.generate_feedback(inconsistency, self.current_sentence)
         self.current_sentence_idx += 1
         self.current_state = 'S2'
