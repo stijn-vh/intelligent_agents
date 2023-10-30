@@ -36,9 +36,8 @@ class InconsistencyCheck:
         inconsistencies = []
 
         # Marriage age
-        if (len(wm['isMarriedTo']) > 0) and (len(wm['hasAge']) > 0):
-            person1 = wm['isMarriedTo'][0][0]
-            person2 = wm['isMarriedTo'][0][1]
+        if (len(wm['isMarriedTo']) and len(wm['hasAge'])) > 0:
+            person1, person2 = wm['isMarriedTo'][0]
 
             consentAge = list(ontology.get_age_of_consent())[0][0]
 
@@ -54,8 +53,8 @@ class InconsistencyCheck:
         # Health condition check
         if (len(wm['hasHealthCondition']) > 0 and (len(wm['consumes'])) > 0):
             for pair in wm['hasHealthCondition']:
-                person = pair[0]
-                condition = pair[1]
+                person, condition = pair
+
                 foods = [item[1] for item in wm['consumes'] if item[0] == person]
                 for food in foods:
                     incon_set = (person, food)
@@ -72,8 +71,8 @@ class InconsistencyCheck:
                 person = pair[0]
                 food = pair[1].capitalize()
                 for locPair in wm['isLocatedIn']:
-                    locPerson = locPair[0]
-                    location = locPair[1]
+                    locPerson, location = locPair
+                    
                     incon_set = (locPerson, location)
                     locationFoods = [str(i[0].label.first()) for i in list(ontology.get_dishes_from_cuisine_of_restaurant('La Trattoria'))]
                     cuisine = str(list(ontology.get_cuisine('La Trattoria'))[0][0].label.first())
