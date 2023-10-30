@@ -19,8 +19,6 @@ class Agent:
             'S1': self.start,
             'S2': self.read_and_nlp,
             'S3': self.store_in_memory,
-            #'S4': self.query_ontology,
-            #'S5': self.store_ontology_results,
             'S4': self.reasoner,
             'S5': self.output_inconsistency,
         }
@@ -39,6 +37,9 @@ class Agent:
         self.current_state = 'S2'
         while self.current_state != 'END':
             self.states[self.current_state]()
+        if self.current_state == 'END':
+            print('\033[031m'+'##############################################################\n'+'\033[0m')
+            print("In total, there were {} inconsistencies found. Please scroll up to see them".format(sum(len(val) for val in self.incon_check.get_found_incons().values())))
 
     def read_and_nlp(self):
         """
@@ -62,33 +63,12 @@ class Agent:
         self.wm.store(self.relations)
 
         #self.wm.printwm() #Currently for Debug purposes
-        
+
         if self.query_checker.get_queries_to_perform():
             self.current_state = 'S4'
         else:
             self.current_sentence_idx += 1
             self.current_state = 'S2'
-
-    # def query_ontology(self):
-    #     queries = self.query_checker.get_queries_to_perform()
-    #     self.query_results = []
-    #     for query in queries:
-    #         self.query_results.append(list(query()))
-    #     self.current_state = 'S5'
-
-    #def store_ontology_results(self):
-        #Currently the agent gets to here
-        ####Between these comments is for debug
-        #self.current_state = 'S6'
-        # if self.current_sentence_idx < 10:
-        #     self.current_sentence_idx += 1
-        #     self.current_state = 'S2'
-        # else:
-        #     self.current_state='END'
-        ###For debug above
-        
-        # self.wm.store(self.query_results)
-        # self.current_state = 'S6'
 
     def reasoner(self):
         self.inconsistencies = self.incon_check.check(self.wm.retrieve(), self.ontology)

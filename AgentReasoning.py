@@ -8,6 +8,9 @@ class InconsistencyCheck:
             'food': set(),
         }
 
+    def get_found_incons(self):
+        return self.found_incons
+    
     def get_age(self, name, wm):
         """
         Name: get_age()
