@@ -127,20 +127,10 @@ class WorkingMemory:
         for prop in ontology.object_properties():
             self.memory[str(prop.label[0])] = []
 
+    #For debug, delete for final
     def printwm(self):
         print(self.memory)
         print('\n\n')
-
-    # def __init__(self):
-    #     self.memory = []
-
-    # def set_relations_from_ontology(self, ontology):
-    #     for entity in [ontology.data_properties(), ontology.object_properties()]:
-    #         if entity in ontology.data_properties() or entity in ontology.object_properties():
-    #             self.memory[str(entity.label[0])] = [] 
-
-    # def store(self, data):
-    #     self.memory.append(data)
 
     def retrieve(self):
         return self.memory
