@@ -1,7 +1,6 @@
 import nltk
 import spacy
 from spacy.matcher import Matcher
-
 # Necessary for sentence segmentation
 # nltk.download('punkt')
 
@@ -17,7 +16,8 @@ class NLP:
             "MARRIAGE": [[{"TEXT": "married"}, {"TEXT": "couple"}, {"TEXT": ","}, {"POS": "PROPN"}, {"TEXT": "and"}, {"POS": "PROPN"}]],
             "HEALTH_CONDITION": [[{"DEP": "nsubj", "OP": "+"}, {"LEMMA": "be", "POS": "AUX"}, {"POS": "DET", "OP": "?"}, {"LOWER": "diabetic"}]],
             "ORDERED_FOOD": [[{"DEP": "nsubj", "OP": "+"}, {"LEMMA": "order"}, {"POS": "DET", "OP": "?"}, {"POS": "ADJ", "OP": "*"}, {"POS": {"IN": ["NOUN", "PROPN"]}}]],
-            "ALLERGY": [[{"LOWER": "she"}, {"LOWER": "had"}, {"LOWER": "a"}, {"LOWER": "shellfish"}, {"LOWER": "allergy"}]]
+            "ALLERGY": [[{"LOWER": "she"}, {"LOWER": "had"}, {"LOWER": "a"}, {"LOWER": "shellfish"}, {"LOWER": "allergy"}]],
+            "PERSONLOC": [[{"TEXT": {"REGEX": "Micheal"}}, {"LEMMA": "be", "OP": "*"}, {"LOWER": "seated"}, {"LOWER": "in"}, {"LOWER": "the"}, {"LOWER": "kitchen"}]]
         }
 
         for label, pattern in patterns.items():
@@ -40,6 +40,12 @@ class NLP:
                 location = span[-1].text
                 relationships["isLocatedIn"] = [(subject, location)]
 
+            #Person location (kitchen)
+            if match_id_str == "PERSONLOC":
+                subject = doc[start].text  # Extract the entire matched span as the subject
+                location = doc[end-1].text  # Extract the last word in the matched span as the location
+                relationships["isLocatedIn"] = [(subject, location)]
+
             #Marriage
             if match_id_str == "MARRIAGE":
                 person1, person2 = span[3].text, span[5].text
@@ -58,7 +64,7 @@ class NLP:
             if match_id_str == "ALLERGY":
                 subject = "Sarah"
                 condition = span[-2:end].text
-                relationships['hasHealthCondition'] = [(subject, condition)]
+                relationships['hasHealthCondition'] = [(subject, condition)]        
 
         if consumes_relation:
             relationships['consumes'] = tuple(consumes_relation)
@@ -101,7 +107,7 @@ class NLP:
         if "hasOccupation" in relationships:
             relationships["hasOccupation"] = tuple(relationships["hasOccupation"])
         
-        #Person location
+        #Restaurant location
         location_keywords = ["restaurant", "dinner", "dining"]
         added_entities = set()
         location_name = "La Trattoria"

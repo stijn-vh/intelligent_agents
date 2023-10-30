@@ -83,14 +83,6 @@ class Ontology:
     
     def retrieve_IRI(self, label):
         return self.iris[label]
-    
-    #This might be useful, although Raoul mentioned that no edits would take place
-    def add_entity(self, entity):
-        pass
-
-    #Same issue as above
-    def update_entity(self, entity, property):
-        pass
 
 class WorkingMemory:
     def __init__(self):

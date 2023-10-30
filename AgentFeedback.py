@@ -6,5 +6,4 @@ class FeedbackGenerator:
     def generate_feedback(self, inconsistency, sentence):
         print('\033[031m'+'##############################################################\n'+'\033[0m')
         print(self.script.format(sentence, inconsistency[0], inconsistency[1]))
-        #print('\033[031m'+'##############################################################\n'+'\033[0m')
         pass

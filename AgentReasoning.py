@@ -5,6 +5,7 @@ class InconsistencyCheck:
             'marriage': set(),
             'health': set(),
             'food': set(),
+            'location': set()
         }
 
     def get_found_incons(self):
@@ -37,14 +38,11 @@ class InconsistencyCheck:
         # Marriage age
         if (len(wm['isMarriedTo']) and len(wm['hasAge'])) > 0:
             person1, person2 = wm['isMarriedTo'][0]
-
             consentAge = list(ontology.get_age_of_consent())[0][0]
-
             incon_set = (person1, person2) #unique identifier for set(), good for keeping track
             if (incon_set not in self.found_incons['marriage']):
                 person1age = self.get_age(person1, wm)
                 person2age = self.get_age(person2, wm)
-
                 if (int(person1age) or int(person2age)) < consentAge:
                     self.found_incons['marriage'].add(incon_set)
                     inconsistencies.append(('Marriage', '{} and {} are married under the age of consent of {}'.format(person1, person2, consentAge)))
@@ -53,7 +51,6 @@ class InconsistencyCheck:
         if (len(wm['hasHealthCondition']) > 0 and (len(wm['consumes'])) > 0):
             for pair in wm['hasHealthCondition']:
                 person, condition = pair
-
                 foods = [item[1] for item in wm['consumes'] if item[0] == person]
                 for food in foods:
                     incon_set = (person, food)
@@ -71,15 +68,26 @@ class InconsistencyCheck:
                 food = pair[1].capitalize()
                 for locPair in wm['isLocatedIn']:
                     locPerson, location = locPair
-                    
                     incon_set = (locPerson, location)
-                    locationFoods = [str(i[0].label.first()) for i in list(ontology.get_dishes_from_cuisine_of_restaurant('La Trattoria'))]
-                    cuisine = str(list(ontology.get_cuisine('La Trattoria'))[0][0].label.first())
-                    if (incon_set not in self.found_incons['food']) and (person == locPerson) and (food not in locationFoods):
-                        self.found_incons['food'].add(incon_set)
-                        inconsistencies.append(('Cuisine mismatch', '{} does not serve {} as it serves {} cuisine'.format(location, food, cuisine)))
-                        pass
-                        
+                    if location != 'kitchen':
+                        locationFoods = [str(i[0].label.first()) for i in list(ontology.get_dishes_from_cuisine_of_restaurant(location))]
+                        cuisine = str(list(ontology.get_cuisine('La Trattoria'))[0][0].label.first())
+                        if (incon_set not in self.found_incons['food']) and (person == locPerson) and (food not in locationFoods):
+                            self.found_incons['food'].add(incon_set)
+                            inconsistencies.append(('Cuisine mismatch', '{} does not serve {} as it serves {} cuisine'.format(location, food, cuisine)))
+
+        if (len(wm['isLocatedIn']) > 0) and (len(['hasOccupation']) > 0):
+            for pair in wm['isLocatedIn']:
+                person,location = pair
+                if location not in ['Amsterdam', 'Trattoria”', 'La Trattoria']:
+                    location = location.capitalize()
+                    for occPair in wm['hasOccupation']:
+                        occPerson, occupation = occPair
+                        incon_set = (person, location)
+                        if (incon_set not in self.found_incons['location']) and (person == occPerson) and not list(ontology.get_persons_with_place_and_occupation(location, occupation)):
+                            self.found_incons['location'].add(incon_set)
+                            inconsistencies.append(('Location mismatch', "{}'s location should not be {}".format(person, location)))
+                            
 
         return inconsistencies
 
