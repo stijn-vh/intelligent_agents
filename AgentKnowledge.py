@@ -119,7 +119,7 @@ class WorkingMemory:
         for prop in ontology.object_properties():
             self.memory[str(prop.label[0])] = []
 
-    #For debug, delete for final
+    #For debug only
     def printwm(self):
         print(self.memory)
         print('\n\n')
