@@ -64,8 +64,8 @@ class NLP:
 
             #Person location (kitchen)
             if match_id_str == "PERSONLOC":
-                subject = doc[start].text  # Extract the entire matched span as the subject
-                location = doc[end-1].text  # Extract the last word in the matched span as the location
+                subject = doc[start].text
+                location = doc[end-1].text
                 relationships["isLocatedIn"] = [(subject, location)]
 
             #Marriage
@@ -74,13 +74,13 @@ class NLP:
                 relationships["isMarriedTo"] = [(person1, person2)]
 
             if match_id_str == "HEALTH_CONDITION":
-                subject = span[0].text  # Assuming the subject is always the first token in the span
-                condition = "Diabetes"  # Converting 'diabetic' to 'Diabetes'
+                subject = span[0].text
+                condition = "Diabetes"
                 relationships["hasHealthCondition"] = [(subject, condition)]
 
             if match_id_str == "ORDERED_FOOD":
-                subject = span[0].text  # Assuming the subject is always the first token in the span
-                item = span[-1].text  # Assuming the item is always the last token in the span
+                subject = span[0].text
+                item = span[-1].text
                 consumes_relation.append((subject, item))
 
             if match_id_str == "ALLERGY":
@@ -93,12 +93,9 @@ class NLP:
 
         #Diabetes
         for token in doc:
-            # Look for the word "diabetic" or other known health conditions
             if token.text.lower() in ["diabetic"]:
-                # Find the subject of the phrase (assumes the subject precedes the health condition)
                 subject = [ancestor for ancestor in token.ancestors if ancestor.dep_ in ("nsubj", "nsubjpass")]
                 if subject:
-                    # Create a more clinical term for the condition
                     condition = "Diabetes" if token.text.lower() == "diabetic" else token.text
                     relationships["hasHealthCondition"].append((subject[0].text, condition))
         
