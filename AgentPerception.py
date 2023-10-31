@@ -146,6 +146,7 @@ class NLP:
         if location_relationships:
             relationships["isLocatedIn"] += tuple(location_relationships)
 
+        #Foods
         for token in doc:
             if token.dep_ in ("xcomp", "ccomp") and token.head.lemma_ in ("order", "decide"):
                 subject = [ancestor for ancestor in token.ancestors if ancestor.dep_ in ("nsubj", "nsubjpass")]
