@@ -6,7 +6,7 @@ from AgentFeedback import *
 class Agent:
     def __init__(self):
         self.parser = NLP()
-        self.ontology = Ontology('urn_webprotege_ontology_5d0dac0d-8168-404e-b9c8-c3f420fec954')
+        self.ontology = Ontology('OntologyDesign_Group4')
         self.wm = WorkingMemory()
         self.incon_check = InconsistencyCheck()
         self.feedback_gen = FeedbackGenerator()

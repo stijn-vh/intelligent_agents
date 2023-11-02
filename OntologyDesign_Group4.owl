@@ -26,6 +26,7 @@
 
     <owl:ObjectProperty rdf:about="http://webprotege.stanford.edu/R7gN6UZzq0qwBaK4M1brLio">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
         <rdfs:domain rdf:resource="http://webprotege.stanford.edu/R9rwIlKieUAZ3yNjAm9xgx1"/>
         <rdfs:range rdf:resource="http://webprotege.stanford.edu/R9rwIlKieUAZ3yNjAm9xgx1"/>
         <rdfs:label xml:lang="en">isFriendsWith</rdfs:label>
@@ -92,6 +93,7 @@
 
     <owl:ObjectProperty rdf:about="http://webprotege.stanford.edu/RBehIXBnOTTQJ5WJa7Jd6vY">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="http://webprotege.stanford.edu/R9rwIlKieUAZ3yNjAm9xgx1"/>
         <rdfs:range rdf:resource="http://webprotege.stanford.edu/R9rwIlKieUAZ3yNjAm9xgx1"/>
         <rdfs:label xml:lang="en">isMarriedTo</rdfs:label>
@@ -125,6 +127,7 @@
 
     <owl:ObjectProperty rdf:about="http://webprotege.stanford.edu/RCcrABicgV96zn0z4sSN25O">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
         <rdfs:domain rdf:resource="http://webprotege.stanford.edu/R9rwIlKieUAZ3yNjAm9xgx1"/>
         <rdfs:range rdf:resource="http://webprotege.stanford.edu/R9rwIlKieUAZ3yNjAm9xgx1"/>
         <rdfs:label xml:lang="en">isBiologicalMotherOf</rdfs:label>
@@ -136,6 +139,7 @@
 
     <owl:ObjectProperty rdf:about="http://webprotege.stanford.edu/RCpk7ICP5OrVBr8HUVlF9lH">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
         <rdfs:domain rdf:resource="http://webprotege.stanford.edu/R9rwIlKieUAZ3yNjAm9xgx1"/>
         <rdfs:domain rdf:resource="http://webprotege.stanford.edu/RzeVLoQaCctzSaFRuAZN35"/>
         <rdfs:range rdf:resource="http://webprotege.stanford.edu/R8VeCU3g9ucPX3SI0x2y6U3"/>
@@ -565,6 +569,15 @@
     
 
 
+    <!-- http://webprotege.stanford.edu/R8gzIT1EjV6ORkCpn7Y4uUP -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/R8gzIT1EjV6ORkCpn7Y4uUP">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/RDJ9poGj0MxlNB3SlxY5bBZ"/>
+        <rdfs:label xml:lang="en">Apron</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://webprotege.stanford.edu/R8lsrwAZEtxpxVNVn06MDMB -->
 
     <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/R8lsrwAZEtxpxVNVn06MDMB">
@@ -597,6 +610,15 @@
     <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/R9Dab21AX3mSiXqZoodbRPf">
         <rdf:type rdf:resource="http://webprotege.stanford.edu/R8VeCU3g9ucPX3SI0x2y6U3"/>
         <rdfs:label xml:lang="en">Europe</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9LoJ0Lw9nqbhCkaj1shzZz -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/R9LoJ0Lw9nqbhCkaj1shzZz">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/RDJ9poGj0MxlNB3SlxY5bBZ"/>
+        <rdfs:label xml:lang="en">Baseball Cap</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -642,6 +664,16 @@
     <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/R9w7OifkSWJ3RWQsWirCJk9">
         <rdf:type rdf:resource="http://webprotege.stanford.edu/R9XgNd39fEpU08cno782N1I"/>
         <rdfs:label xml:lang="en">Pea</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RB4RVEAS0h63Re3aaUXlIU0 -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/RB4RVEAS0h63Re3aaUXlIU0">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/R9rwIlKieUAZ3yNjAm9xgx1"/>
+        <webprotege:R87cwZuaE8be2SzYQtnrCWR rdf:resource="http://webprotege.stanford.edu/RBgDl2E1c4YWjVLEmmzcP7O"/>
+        <rdfs:label xml:lang="en">Ricky</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -736,10 +768,21 @@
     
 
 
+    <!-- http://webprotege.stanford.edu/RBfok4jlCimnsL6X0EMrQq2 -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/RBfok4jlCimnsL6X0EMrQq2">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/RDJ9poGj0MxlNB3SlxY5bBZ"/>
+        <rdfs:label xml:lang="en">Chef&apos;s Hat</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://webprotege.stanford.edu/RBgDl2E1c4YWjVLEmmzcP7O -->
 
     <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/RBgDl2E1c4YWjVLEmmzcP7O">
         <rdf:type rdf:resource="http://webprotege.stanford.edu/RBKSF78vKCcPFe7atgDSQqc"/>
+        <webprotege:RFIpjDGyUnInjpKwFJrvvn rdf:resource="http://webprotege.stanford.edu/R8gzIT1EjV6ORkCpn7Y4uUP"/>
+        <webprotege:RFIpjDGyUnInjpKwFJrvvn rdf:resource="http://webprotege.stanford.edu/RBfok4jlCimnsL6X0EMrQq2"/>
         <rdfs:label xml:lang="en">Chef</rdfs:label>
     </owl:NamedIndividual>
     
@@ -826,6 +869,7 @@
     <!-- http://webprotege.stanford.edu/RDOsCfqLjsk989o0awMmSmM -->
 
     <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/RDOsCfqLjsk989o0awMmSmM">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/RBKSF78vKCcPFe7atgDSQqc"/>
         <rdfs:label xml:lang="en">Janitor</rdfs:label>
     </owl:NamedIndividual>
     
@@ -867,6 +911,15 @@
     
 
 
+    <!-- http://webprotege.stanford.edu/RDhBVnv3JZa9CbFQKEnNgIv -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/RDhBVnv3JZa9CbFQKEnNgIv">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/RDJ9poGj0MxlNB3SlxY5bBZ"/>
+        <rdfs:label xml:lang="en">Regular Clothes</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://webprotege.stanford.edu/RDwK3cyu0z4Zg4QR2n7sxWD -->
 
     <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/RDwK3cyu0z4Zg4QR2n7sxWD">
@@ -900,6 +953,7 @@
     <!-- http://webprotege.stanford.edu/RI4nJQcA4qGeZ7FcgtGM0c -->
 
     <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/RI4nJQcA4qGeZ7FcgtGM0c">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/R9n03D5BG1RCh64YopeLAs"/>
         <rdfs:label xml:lang="en">Banana Ice Cream</rdfs:label>
     </owl:NamedIndividual>
     
@@ -1021,6 +1075,7 @@
     <!-- http://webprotege.stanford.edu/RyRnJX1sMO9odDKPnVoqgi -->
 
     <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/RyRnJX1sMO9odDKPnVoqgi">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/RBKSF78vKCcPFe7atgDSQqc"/>
         <rdfs:label xml:lang="en">Food Critic</rdfs:label>
     </owl:NamedIndividual>
     
@@ -1036,5 +1091,5 @@
 
 
 
-<!-- Generated by the OWL API (version 4.5.13) https://github.com/owlcs/owlapi -->
+<!-- Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi -->
 
