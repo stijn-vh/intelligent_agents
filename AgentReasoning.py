@@ -75,7 +75,8 @@ class InconsistencyCheck:
                         if (incon_set not in self.found_incons['food']) and (person == locPerson) and (food not in locationFoods):
                             self.found_incons['food'].add(incon_set)
                             inconsistencies.append(('Cuisine mismatch', '{} does not serve {} as it serves {} cuisine'.format(location, food, cuisine)))
-
+        
+        # guest location check
         if (len(wm['isLocatedIn']) > 0) and (len(['hasOccupation']) > 0):
             for pair in wm['isLocatedIn']:
                 person,location = pair
